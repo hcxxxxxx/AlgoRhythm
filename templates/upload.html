@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传音频 - Algorhythm</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="page-title">
+            <h1>上传音频</h1>
+            <p>选择音频文件，我们将为你生成音游谱面</p>
+        </div>
+        
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
+            <div class="upload-area" id="drop-area">
+                <div class="icon">📁</div>
+                <div class="text">拖放文件到这里，或点击选择文件</div>
+                <input type="file" name="audio_file" id="audio-file" accept=".mp3,.wav,.ogg,.flac" style="display: none;">
+                <button type="button" class="btn" id="select-file-btn">选择文件</button>
+                
+                <div class="file-info" id="file-info">
+                    <p>已选择: <span id="file-name"></span></p>
+                    <p>文件大小: <span id="file-size"></span></p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="difficulty">选择难度:</label>
+                <select name="difficulty" id="difficulty">
+                    <option value="easy">简单</option>
+                    <option value="normal" selected>普通</option>
+                    <option value="hard">困难</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn" id="upload-btn" disabled>上传并生成谱面</button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">返回主页</a>
+            </div>
+        </form>
+        
+        <div id="loading" style="display: none;">
+            <p>正在处理音频并生成谱面，请稍候...</p>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('audio-file');
+            const selectFileBtn = document.getElementById('select-file-btn');
+            const uploadBtn = document.getElementById('upload-btn');
+            const fileInfo = document.getElementById('file-info');
+            const fileName = document.getElementById('file-name');
+            const fileSize = document.getElementById('file-size');
+            const uploadForm = document.getElementById('upload-form');
+            const loading = document.getElementById('loading');
+            
+            // 点击选择文件按钮
+            selectFileBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // 文件选择改变
+            fileInput.addEventListener('change', handleFiles);
+            
+            // 拖拽事件
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.classList.add('dragover');
+            }
+            
+            function unhighlight() {
+                dropArea.classList.remove('dragover');
+            }
+            
+            // 处理拖放文件
+            dropArea.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length) {
+                    fileInput.files = files;
+                    handleFiles();
+                }
+            });
+            
+            // 处理选择的文件
+            function handleFiles() {
+                const file = fileInput.files[0];
+                
+                if (file) {
+                    // 检查文件类型
+                    const acceptedTypes = ['.mp3', '.wav', '.ogg', '.flac'];
+                    const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+                    
+                    if (!acceptedTypes.includes(fileExt)) {
+                        alert('请选择支持的音频格式：MP3, WAV, OGG 或 FLAC');
+                        fileInput.value = '';
+                        return;
+                    }
+                    
+                    // 显示文件信息
+                    fileName.textContent = file.name;
+                    fileSize.textContent = formatFileSize(file.size);
+                    fileInfo.style.display = 'block';
+                    
+                    // 启用上传按钮
+                    uploadBtn.disabled = false;
+                } else {
+                    fileInfo.style.display = 'none';
+                    uploadBtn.disabled = true;
+                }
+            }
+            
+            // 格式化文件大小
+            function formatFileSize(bytes) {
+                if (bytes < 1024) {
+                    return bytes + ' B';
+                } else if (bytes < 1024 * 1024) {
+                    return (bytes / 1024).toFixed(2) + ' KB';
+                } else {
+                    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+                }
+            }
+            
+            // 表单提交
+            uploadForm.addEventListener('submit', function() {
+                loading.style.display = 'block';
+                uploadForm.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

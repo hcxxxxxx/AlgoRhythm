@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorhythm - 音频分析与谱面生成</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="page-title">
+            <h1>Algorhythm</h1>
+            <p>上传音频，自动生成音游谱面</p>
+        </div>
+        
+        <div class="feature-section">
+            <h2>功能介绍</h2>
+            <p>Algorhythm是一个基于音频分析的音游谱面自动生成应用。上传你喜欢的音乐，系统会自动分析音频特征并生成相应的音游关卡。</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>音频分析</h3>
+                    <p>系统会分析音频的节奏、音调和能量特征，以生成流畅而有趣的游戏体验。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>自动生成谱面</h3>
+                    <p>根据音频特征自动生成适合的音游谱面，无需手动创建。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>在线游玩</h3>
+                    <p>生成谱面后可以直接在浏览器中游玩，体验自己喜欢的音乐。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <a href="{{ url_for('upload') }}" class="btn">开始使用</a>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Algorhythm. 使用 Python, Flask 和 Web Audio API 开发。</p>
+        </div>
+    </div>
+</body>
+</html>

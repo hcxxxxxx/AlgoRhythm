@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏 - Algorhythm</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="page-title">
+            <h1>Algorhythm</h1>
+            <p class="key-hint">用键盘按键 D F J K 来点击对应轨道的音符</p>
+        </div>
+        
+        <div class="game-info">
+            <div class="game-score">
+                分数: <span id="score-display">0</span>
+            </div>
+            <div class="game-combo">
+                <span id="combo-display"></span>
+            </div>
+            <div class="game-controls">
+                <button class="btn" id="btn-start">开始游戏</button>
+                <button class="btn" id="btn-restart" style="display: none;">重新开始</button>
+                <button class="btn btn-secondary" id="btn-pause">暂停</button>
+            </div>
+        </div>
+        
+        <div id="game-container" class="game-container">
+            <!-- 游戏内容将由JavaScript动态生成 -->
+        </div>
+        
+        <div class="game-instructions">
+            <h3>游戏说明</h3>
+            <p>使用键盘按键 D F J K 来点击对应的四个轨道上的音符。</p>
+            <p>音符会从上方落下，需要在音符到达底部判定线时点击相应按键。</p>
+            <p>判定结果: Perfect > Great > Good > Miss</p>
+            <p>按空格键可以暂停/继续游戏。</p>
+        </div>
+        
+        <div class="footer">
+            <a href="{{ url_for('upload') }}" class="btn btn-secondary">返回上传页面</a>
+        </div>
+    </div>
+    
+    <!-- 存储会话ID和音频路径 -->
+    <input type="hidden" id="session-id" value="{{ session_id }}">
+    <input type="hidden" id="audio-path" value="{{ url_for('static', filename=audio_path) }}">
+    
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
