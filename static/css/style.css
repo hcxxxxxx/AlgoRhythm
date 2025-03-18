@@ -1,12 +1,19 @@
 @font-face {
     font-family: 'Facon'; 
-    src: url('../../src/fonts/Facon-2.ttf') format('ttf');
+    src: url('../fonts/Facon-4pK4.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Hanyi'; 
+    src: url('../fonts/Hanyi.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Facon', 'Hanyi', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #121212;
@@ -46,12 +53,13 @@ body::before {
 
 /* 页面标题 */
 .page-title {
+    font-size: 1em;
     text-align: center;
     margin-bottom: 30px;
 }
 
 .page-title h1 {
-    font-size: 2.5em;
+    font-size: 3em;
     color: rgba(255, 255, 255, 0.8);
     text-shadow: 0 0 10px rgba(0, 204, 255, 0.9);
 }
@@ -831,6 +839,7 @@ footer {
 .footer-content,
 .game-instructions h3,
 .game-instructions p {
+    font-family: 'Facon', 'Hanyi', sans-serif;
     color: rgba(255, 255, 255, 0.8);
     text-shadow: 0 0 10px rgba(0, 204, 255, 0.9);
 }
