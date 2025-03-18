@@ -28,11 +28,12 @@
             
             <div class="form-group">
                 <label for="difficulty">选择难度:</label>
-                <select name="difficulty" id="difficulty">
-                    <option value="easy">简单</option>
-                    <option value="normal" selected>普通</option>
-                    <option value="hard">困难</option>
-                </select>
+                <div class="difficulty-selection">
+                    <button type="button" class="difficulty-btn" data-value="easy">简单</button>
+                    <button type="button" class="difficulty-btn selected" data-value="normal">普通</button>
+                    <button type="button" class="difficulty-btn" data-value="hard">困难</button>
+                    <input type="hidden" name="difficulty" id="difficulty" value="normal">
+                </div>
             </div>
             
             <div class="form-actions">
@@ -58,6 +59,20 @@
             const fileSize = document.getElementById('file-size');
             const uploadForm = document.getElementById('upload-form');
             const loading = document.getElementById('loading');
+            const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+            const difficultyInput = document.getElementById('difficulty');
+            
+            // 难度选择按钮
+            difficultyBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的selected类
+                    difficultyBtns.forEach(b => b.classList.remove('selected'));
+                    // 添加当前按钮的selected类
+                    this.classList.add('selected');
+                    // 更新隐藏输入的值
+                    difficultyInput.value = this.getAttribute('data-value');
+                });
+            });
             
             // 点击选择文件按钮
             selectFileBtn.addEventListener('click', function() {
@@ -150,5 +165,7 @@
             });
         });
     </script>
+    <script src="{{ url_for('static', filename='js/pageTransition.js') }}"></script>
+    <script src="../static/js/script.js"></script>
 </body>
 </html>

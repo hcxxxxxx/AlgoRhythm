@@ -8,7 +8,7 @@ const fadeIn = (t, m) => t / m;
 const fadeOut = (t, m) => (m - t) / m;
 const fadeInOut = (t, m) => {
   let hm = 0.5 * m;
-  return 0.2 * abs((t + hm) % m - hm) / hm;
+  return 0.6 * abs((t + hm) % m - hm) / hm;
 };
 
 let canvas;
@@ -60,7 +60,7 @@ function mousehandler(e) {
 function getParticle(x, y) {
   return {
     position: { x, y },
-    size: 2 + rand(20),
+    size: 4 + rand(20),
     speed: 2 + rand(5),
     direction: floor(rand(6)) * 60 * TO_RAD,
     turnDirection: randRange(1) * 0.1,
@@ -79,13 +79,15 @@ function getParticle(x, y) {
     draw() {
       this.update();
 
-      ctx.a.beginPath();
-      ctx.a.lineWidth = 2;
-      ctx.a.strokeStyle = `hsla(${this.hue},100%,50%,${fadeInOut(this.life, this.ttl)})`;
-      ctx.a.strokeRect(this.position.x - 0.5 * this.size, this.position.y - 0.5 * this.size, this.size, this.size);
-      ctx.a.closePath();
-    } };
-
+      ctx.a.save();
+      ctx.a.font = `${this.size}px Arial`;
+      ctx.a.fillStyle = `hsla(${this.hue},100%,50%,${fadeInOut(this.life, this.ttl)})`;
+      ctx.a.textAlign = 'center';
+      ctx.a.textBaseline = 'middle';
+      ctx.a.fillText('♪', this.position.x, this.position.y);
+      ctx.a.restore();
+    }
+  };
 }
 
 function draw() {
